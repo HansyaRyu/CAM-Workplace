@@ -9,40 +9,29 @@
             text-align:center; 
             padding-top:50px; 
         }
-
-        h2 {
-            font-size: 28px;
-            color:#001f54;
-        }
-
         .btn {
             display:block;
             width:250px;
             margin:15px auto;
             padding:15px;
-            background:#001f54; /* NAVY BLUE */
+            background:#001f54;
             color:white;
             text-decoration:none;
-            border-radius:10px;
+            border-radius:8px;
             font-weight:bold;
             box-shadow:0 4px 10px rgba(0,0,0,0.2);
-            transition:0.25s; /* ANIMATION */
+            transition:0.25s;
         }
-
-        /* Hover effect untuk semua button */
         .btn:hover {
-            transform: scale(1.05); /* Besar sikit */
+            transform: scale(1.05);
             box-shadow:0 6px 14px rgba(0,0,0,0.25);
         }
-
-        /* Button Logout - kuning */
         .logout {
             background:#f7d000;
             color:black;
         }
-
         .logout:hover {
-            background:#ffea4d; /* lebih cerah */
+            background:#ffea4d;
         }
     </style>
 </head>
@@ -60,13 +49,21 @@
 <button class="btn logout" onclick="logout()">Logout</button>
 
 <script>
+// Block back button from returning after logout
+window.history.forward();
+
+// Check login session
 if (localStorage.getItem("isLogin") !== "true") {
-    window.location.href = "Cam 1 login.html";
+    window.location.replace("Cam 1 login.html");
 }
 
 function logout() {
-    localStorage.removeItem("isLogin");
-    window.location.href = "Cam 1 login.html";
+    // Remove all session data
+    localStorage.clear();
+    sessionStorage.clear();
+
+    // Redirect login & block back navigation
+    window.location.replace("Cam 1 login.html");
 }
 </script>
 
