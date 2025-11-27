@@ -36,24 +36,12 @@
 </div>
 
 <script>
-function login() {
-    const user = document.getElementById("user").value;
-    const pass = document.getElementById("pass").value;
-
-    const users = {
-        "admincam": "123456",
-        "campartime": "123456"
-    };
-
-    if (users[user] && users[user] === pass) {
-        localStorage.setItem("isLogin", "true");
-        localStorage.setItem("username", user);
-        window.location.href = "Cam 2 mainpage.html";
-    } else {
-        alert("Login error! ID or password.");
+    // Block back button on login page
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function () {
+        window.history.go(1);
     }
-}
-</script>
 
-</body>
-</html>
+    function login() {
+        const user = document.getElementById("user").value;
+        const pass =
