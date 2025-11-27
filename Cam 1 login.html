@@ -3,93 +3,44 @@
 <head>
     <title>CAM WORKPLACE</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            background: #d7eaff;
-        }
-        .box { 
-            width: 300px; 
-            margin: 100px auto; 
-            background: white; 
-            padding: 20px; 
-            border-radius: 10px; 
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h2 {
-            text-align: center;
-            color: #001f54;
-        }
-        input, button { 
-            width: 90%; 
-            padding: 10px; 
-            margin: 10px 0; 
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        button { 
-            background: #001f54; 
-            color: white; 
-            border: none; 
-            cursor: pointer;
-        }
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        button:hover:enabled {
-            background: #003080;
-        }
+        body { font-family: Arial, sans-serif; background: #d7eaff; }
+        .box { width: 300px; margin: 100px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+        h2 { text-align: center; color: #001f54; }
+        input, button { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; display: block; margin-left:auto; margin-right:auto;}
+        button { background: #001f54; color: white; border: none; cursor: pointer; }
+        button:hover { background: #003080; }
     </style>
 </head>
 <body>
 
 <div class="box">
     <h2>Login</h2>
-    <input id="user" type="text" placeholder="User ID" required>
-    <input id="pass" type="password" placeholder="Password" required>
+    <input id="user" type="text" placeholder="User ID">
+    <input id="pass" type="password" placeholder="Password">
     <button onclick="login()">Login</button>
 </div>
 
 <script>
-    // Block back button safely
-    window.history.pushState(null, null, window.location.href);
-    window.onpopstate = function () { window.history.go(1); }
-
-    const userInput = document.getElementById("user");
-    const passInput = document.getElementById("pass");
-    const loginBtn = document.querySelector("button");
-
-    // Disable button until fields filled
-    loginBtn.disabled = true;
-    function checkInputs() {
-        loginBtn.disabled = !(userInput.value.trim() && passInput.value.trim());
+    // Prevent going back to main page if already logged out
+    if(localStorage.getItem("isLogin") === "true") {
+        window.location.href = "cam2_mainpage.html";
     }
-    userInput.addEventListener("input", checkInputs);
-    passInput.addEventListener("input", checkInputs);
-
-    // Enter key submits
-    [userInput, passInput].forEach(input => {
-        input.addEventListener("keypress", function(e){
-            if(e.key === "Enter" && !loginBtn.disabled) login();
-        });
-    });
 
     function login() {
-        const user = userInput.value.trim().toLowerCase(); // case-insensitive
-        const pass = passInput.value.trim();
+        const user = document.getElementById("user").value.trim();
+        const pass = document.getElementById("pass").value.trim();
 
-        const validUsers = ["campartime@ptti", "admincamptti", "camteam@ptii"];
-        const validPass = "123456";
+        const users = {
+            "admincam": "123456",
+            "campartime": "123456"
+        };
 
-        if(validUsers.includes(user) && pass === validPass) {
-            alert("Login successful!");
-            localStorage.setItem("loggedUser", userInput.value.trim()); // store original case
-            window.location.href = "Cam 2 mainpage.html";
+        if(users[user] && users[user] === pass) {
+            localStorage.setItem("isLogin", "true");
+            localStorage.setItem("username", user);
+            window.location.href = "cam2_mainpage.html";
         } else {
-            alert("Invalid User ID or Password");
+            alert("Login error! ID or password.");
         }
     }
 </script>
