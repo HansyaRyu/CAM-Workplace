@@ -5,7 +5,7 @@
     <style>
         body { 
             font-family: Arial; 
-            background:#d7eaff; /* biru cair */
+            background:#d7eaff; /* light blue */
         }
         .box { 
             width:290px; 
@@ -36,23 +36,34 @@
 </div>
 
 <script>
-function login() {
-    const user = document.getElementById("user").value;
-    const pass = document.getElementById("pass").value;
+    // If user is already logged in, redirect to main page
+    if(localStorage.getItem("isLogin") === "true") {
+        window.location.href = "Cam 2 mainpage.html";
+    }
 
-    const users = {
-        "admincam": "123456",
-        "campartime": "123456"
+    // Block back button on login page
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function () {
+        window.history.go(1);
     };
 
-    if (users[user] && users[user] === pass) {
-        localStorage.setItem("isLogin", "true");
-        localStorage.setItem("username", user);
-        window.location.href = "Cam 2 mainpage.html";
-    } else {
-        alert("Login error! ID or password.");
+    function login() {
+        const user = document.getElementById("user").value.trim();
+        const pass = document.getElementById("pass").value.trim();
+
+        const users = {
+            "admincam": "123456",
+            "campartime": "123456"
+        };
+
+        if (users[user] && users[user] === pass) {
+            localStorage.setItem("isLogin", "true");
+            localStorage.setItem("username", user);
+            window.location.href = "Cam 2 mainpage.html";
+        } else {
+            alert("Login error! ID or password.");
+        }
     }
-}
 </script>
 
 </body>
