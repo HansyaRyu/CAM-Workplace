@@ -1,65 +1,91 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>CAM WORKPLACE</title>
+    <meta charset="UTF-8">
+    <title>Welcome | CAM WORKPLACE</title>
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <style>
-        body { 
-            font-family: Arial; 
-            background:#d7eaff;
+        body {
+            font-family: Arial, sans-serif;
+            background: #0a1a33; /* Navy */
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
         }
-        .box { 
-            width:290px; 
-            margin:100px auto; 
-            background:white; 
-            padding:20px; 
-            border-radius:10px; 
+
+        .container {
+            width: 420px;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.35);
         }
-        input, button { 
-            width:90%; 
-            padding:10px; 
-            margin:10px 0; 
+
+        h1 {
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #0a1a33;
+            margin-bottom: 20px;
         }
-        button { 
-            background:#001f54; 
-            color:white; 
-            border:none; 
+
+        p {
+            color: #0a1a33;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin-top: 15px;
+            background: #0a1a33;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: 0.25s;
+        }
+
+        .btn:hover {
+            background: #152a52;
+            transform: translateY(-3px);
         }
     </style>
 </head>
 <body>
 
-<div class="box">
-    <h2>Login</h2>
-    <input id="user" type="text" placeholder="User ID" required>
-    <input id="pass" type="password" placeholder="Password" required>
-    <button onclick="login()">Login</button>
+<div class="container">
+    <h1>CAM WORKPLACE</h1>
+    <p>Welcome to the official CAM Workplace system.<br>
+    You will be redirected to login shortly.</p>
+    <a href="Cam 1 login.html" class="btn">Go to Login</a>
 </div>
 
 <script>
-
-    // Prevent the undo/back button from leaving this page
-    history.pushState(null, "", window.location.href);
-    window.onpopstate = function () {
-        window.location.replace("index.html");
+    // Prevent cached page restore (Undo, Back)
+    window.onpageshow = function(event) {
+        window.location.replace("Cam 1 login.html");
     };
 
-    function login() {
-        const user = document.getElementById("user").value.trim();
-        const pass = document.getElementById("pass").value.trim();
+    // Force back button / undo to go to login page
+    history.pushState(null, "", window.location.href);
+    window.onpopstate = function () {
+        window.location.replace("Cam 1 login.html");
+    };
 
-        const users = {
-            "admincam": "123456",
-            "campartime": "123456"
-        };
-
-        if(users[user] && users[user] === pass) {
-            localStorage.setItem("isLogin", "true");
-            localStorage.setItem("username", user);
-            window.location.replace("Cam 2 mainpage.html");
-        } else {
-            alert("Login error! ID or password.");
-        }
-    }
+    // Optional: automatically redirect after 1 second
+    setTimeout(function() {
+        window.location.replace("Cam 1 login.html");
+    }, 1000);
 </script>
 
 </body>
