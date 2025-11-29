@@ -1,73 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CAM WORKPLACE - Login</title>
-    <style>
-        body { 
-            font-family: Arial; 
-            background:#d7eaff;
-        }
-        .box { 
-            width:290px; 
-            margin:100px auto; 
-            background:white; 
-            padding:20px; 
-            border-radius:10px; 
-        }
-        input, button { 
-            width:90%; 
-            padding:10px; 
-            margin:10px 0; 
-        }
-        button { 
-            background:#001f54; 
-            color:white; 
-            border:none; 
-        }
-    </style>
+<title>CAM WORKPLACE - Login</title>
+<style>
+body { font-family: Arial; background:#d7eaff; }
+.box { width:290px; margin:100px auto; background:white; padding:20px; border-radius:10px; }
+input, button { width:90%; padding:10px; margin:10px 0; }
+button { background:#001f54; color:white; border:none; cursor:pointer; }
+</style>
 </head>
 <body>
-
 <div class="box">
-    <h2>Login</h2>
-    <input id="user" type="text" placeholder="User ID" required>
-    <input id="pass" type="password" placeholder="Password" required>
-    <button onclick="login()">Login</button>
+<h2>Login</h2>
+<input id="user" type="text" placeholder="User ID" required>
+<input id="pass" type="password" placeholder="Password" required>
+<button onclick="login()">Login</button>
 </div>
 
 <script>
-    // Check if already logged in → go to main page
-    if(localStorage.getItem("isLogin") === "true") {
-        window.location.href = "Cam 2 mainpage.html";
+function isLoggedIn(){ return localStorage.getItem("isLogin")==="true";}
+
+// Already logged in → go to main page
+if(isLoggedIn()){
+    window.location.href = "Cam 2 mainpage.html";
+}
+
+// Disable Back/Forward/Undo/Next → go to index
+history.pushState(null,null,location.href);
+window.onpopstate = function(){
+    window.location.href = "index.html";
+};
+
+function login(){
+    const user=document.getElementById("user").value.trim();
+    const pass=document.getElementById("pass").value.trim();
+
+    const users={"admincam":"123456","campartime":"123456"};
+
+    if(users[user] && users[user]===pass){
+        localStorage.setItem("isLogin","true");
+        localStorage.setItem("username",user);
+        window.location.href="Cam 2 mainpage.html";
+    } else {
+        alert("Login error! ID or password.");
     }
-
-    // Prevent Chrome Undo/Next from staying on login page
-    window.history.pushState(null, null, window.location.href);
-    window.onpopstate = function () {
-        // Always go to welcome page (index.html)
-        window.location.href = "index.html";
-    };
-
-    function login() {
-        const user = document.getElementById("user").value.trim();
-        const pass = document.getElementById("pass").value.trim();
-
-        const users = {
-            "admincam": "123456",
-            "campartime": "123456"
-        };
-
-        if(users[user] && users[user] === pass) {
-            // Correct credentials → go to main page
-            localStorage.setItem("isLogin", "true");
-            localStorage.setItem("username", user);
-            window.location.href = "Cam 2 mainpage.html";
-        } else {
-            // Wrong credentials → stay on login page
-            alert("Login error! ID or password.");
-        }
-    }
+}
 </script>
-
 </body>
 </html>
