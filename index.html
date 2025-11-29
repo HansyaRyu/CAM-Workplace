@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome | CAM WORKPLACE</title>
+    <!-- Prevent browser caching so Undo/Forward triggers a reload -->
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -73,18 +78,18 @@
         window.location.href = "Cam 1 login.html";
     }
 
-    // Undo / page restore → do nothing, just stay on page
+    // Redirect to login immediately on page load
+    window.onload = goToLogin;
+
+    // Handle Undo / Forward / page restore in Chrome
     window.onpageshow = function(event) {
-        if(event.persisted) {
-            console.log("Page restored from cache (Undo) → activity frozen");
-            // Do nothing, user must click the button
-        }
+        goToLogin();
     };
 
-    // Optional: prevent back/forward from skipping page
+    // Block back/forward navigation
     history.pushState(null, null, window.location.href);
     window.onpopstate = function() {
-        // Do nothing → stays on index page
+        goToLogin();
     };
 </script>
 
