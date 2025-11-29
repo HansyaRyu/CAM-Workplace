@@ -36,23 +36,16 @@
 </div>
 
 <script>
-    function isLoggedIn() {
-        return localStorage.getItem("isLogin") === "true";
-    }
-
-    // Redirect already logged-in users to main page
-    if(isLoggedIn()) {
+    // Check if already logged in → go to main page
+    if(localStorage.getItem("isLogin") === "true") {
         window.location.href = "Cam 2 mainpage.html";
     }
 
-    // Handle Undo / Next (back/forward) in Chrome
+    // Prevent Chrome Undo/Next from staying on login page
     window.history.pushState(null, null, window.location.href);
     window.onpopstate = function () {
-        if(!isLoggedIn()) {
-            // If not logged in, always go to index page
-            window.location.href = "index.html";
-        }
-        // If logged in, do nothing (stay on login page redirect)
+        // Always go to welcome page (index.html)
+        window.location.href = "index.html";
     };
 
     function login() {
@@ -65,12 +58,12 @@
         };
 
         if(users[user] && users[user] === pass) {
-            // Successful login
+            // Correct credentials → go to main page
             localStorage.setItem("isLogin", "true");
             localStorage.setItem("username", user);
             window.location.href = "Cam 2 mainpage.html";
         } else {
-            // Failed login - stay on login page normally
+            // Wrong credentials → stay on login page
             alert("Login error! ID or password.");
         }
     }
