@@ -1,95 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Welcome | CAM WORKPLACE</title>
-    <!-- Prevent browser caching -->
-    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+<meta charset="UTF-8">
+<title>Welcome | CAM WORKPLACE</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #0a1a33;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #0a1a33;
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-        }
+.container {
+    width: 420px;
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+}
 
-        .container {
-            width: 420px;
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.35);
-        }
+h1 {
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #0a1a33;
+    margin-bottom: 20px;
+}
 
-        h1 {
-            font-size: 30px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: #0a1a33;
-            margin-bottom: 20px;
-        }
+p {
+    color: #0a1a33;
+    font-size: 16px;
+    margin-bottom: 30px;
+}
 
-        p {
-            color: #0a1a33;
-            font-size: 16px;
-            margin-bottom: 30px;
-        }
+.btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin-top: 15px;
+    background: #0a1a33;
+    color: white;
+    font-size: 18px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s;
+}
 
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            margin-top: 15px;
-            background: #0a1a33;
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            border-radius: 10px;
-            font-weight: bold;
-            transition: 0.25s;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background: #152a52;
-            transform: translateY(-3px);
-        }
-    </style>
+.btn:hover {
+    background: #152a52;
+    transform: translateY(-3px);
+}
+</style>
 </head>
 <body>
 
 <div class="container">
-    <h1>CAM WORKPLACE</h1>
-    <p>Welcome to the official CAM Workplace system.<br>
-       Please click below to go to login page.</p>
-    <button class="btn" onclick="goToLogin()">Go to Login</button>
+<h1>CAM WORKPLACE</h1>
+<p>Welcome to the official CAM Workplace system.<br>
+   Please click below to go to login page.</p>
+<button class="btn" onclick="goToLogin()">Go to Login</button>
 </div>
 
 <script>
-    function goToLogin() {
-        window.location.href = "Cam 1 login.html";
+function goToLogin() {
+    window.location.href = "Cam 1 login.html";
+}
+
+// Disable Back/Forward/Undo/Next completely
+history.pushState(null, null, location.href);
+window.onpopstate = function() {
+    history.pushState(null, null, location.href); // prevent navigation
+};
+
+// Prevent page restore from cache (Undo/Reload)
+window.onpageshow = function(event) {
+    if(event.persisted) {
+        history.pushState(null, null, location.href);
     }
-
-    // Undo / page restore → go to login page
-    window.onpageshow = function(event) {
-        if(event.persisted) {
-            goToLogin(); // Redirect if restored from cache
-        }
-    };
-
-    // Back / Forward buttons → go to login page
-    history.pushState(null, null, window.location.href);
-    window.onpopstate = function() {
-        goToLogin();
-    };
+};
 </script>
 
 </body>
