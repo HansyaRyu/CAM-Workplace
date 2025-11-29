@@ -55,6 +55,7 @@
             border-radius: 10px;
             font-weight: bold;
             transition: 0.25s;
+            cursor: pointer;
         }
 
         .btn:hover {
@@ -67,17 +68,30 @@
 
 <div class="container">
     <h1>CAM WORKPLACE</h1>
-    <p>Redirecting to login page...</p>
-    <a href="Cam 1 login.html" class="btn">Go to Login</a>
+    <p>Welcome to the official CAM Workplace system.<br>
+       Please click below to go to login page.</p>
+    <button class="btn" onclick="goToLogin()">Go to Login</button>
 </div>
 
 <script>
-    function redirectToLogin() {
-        window.location.replace("Cam 1 login.html");
+    function goToLogin() {
+        window.location.href = "Cam 1 login.html";
     }
 
-    // Detect if the page is restored from cache (Undo/freeze)
+    // Undo / page restore → do not redirect, freeze activity
     window.onpageshow = function(event) {
         if(event.persisted) {
-            // Page restored from Undo → freeze current activity
-            console.log("Page restored from cache (Undo) → activity frozen
+            console.log("Page restored from cache (Undo) → activity frozen");
+            // Do nothing, user can click button manually
+        }
+    };
+
+    // Optional: prevent back/forward from skipping page
+    history.pushState(null, null, window.location.href);
+    window.onpopstate = function() {
+        // Do nothing → stays on index page
+    };
+</script>
+
+</body>
+</html>
