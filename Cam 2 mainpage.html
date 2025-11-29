@@ -3,7 +3,7 @@
 <head>
     <title>Main Page</title>
 
-    <!-- MUST ADD THIS: STOP CHROME FROM RESTORING PAGE FROM CACHE -->
+    <!-- Prevent browser cache -->
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -55,61 +55,65 @@
 <button class="btn logout" onclick="logout()">Logout</button>
 
 <script>
-// ====================================================================
-// STOP CHROME UNDO / CACHE RESTORE
-// ====================================================================
-window.onpageshow = function(event) {
-    if (event.persisted) {
+    // ===============================================================
+    // REDIRECT TO LOGIN
+    // ===============================================================
+    function goToLogin() {
         window.location.replace("Cam 1 login.html");
     }
-};
 
-// ====================================================================
-// BLOCK BACK BUTTON
-// ====================================================================
-history.pushState(null, null, location.href);
-window.onpopstate = function () {
+    // Check login immediately on page load
+    if (localStorage.getItem("isLogin") !== "true") {
+        goToLogin();
+    }
+
+    // Handle Undo / reopen tab (persisted cache)
+    window.onpageshow = function(event) {
+        if (event.persisted && localStorage.getItem("isLogin") !== "true") {
+            goToLogin();
+        }
+    };
+
+    // Block back button for non-logged-in users
     history.pushState(null, null, location.href);
-};
+    window.onpopstate = function () {
+        if (localStorage.getItem("isLogin") !== "true") {
+            goToLogin();
+        }
+        // Logged in → do nothing, allow normal workflow
+    };
 
-// ====================================================================
-// CHECK LOGIN SESSION
-// ====================================================================
-if (localStorage.getItem("isLogin") !== "true") {
-    window.location.replace("Cam 1 login.html");
-}
+    // ===============================================================
+    // AUTO LOGOUT AFTER 30 MINUTES
+    // ===============================================================
+    const INACTIVITY_LIMIT = 30 * 60 * 1000; // 30 minutes
+    let inactivityTimer;
 
-// ====================================================================
-// AUTO LOGOUT AFTER 30 MINUTES
-// ====================================================================
-const INACTIVITY_LIMIT = 30 * 60 * 1000;
-let inactivityTimer;
+    function resetTimer() {
+        clearTimeout(inactivityTimer);
+        inactivityTimer = setTimeout(autoLogout, INACTIVITY_LIMIT);
+    }
 
-function resetTimer() {
-    clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(autoLogout, INACTIVITY_LIMIT);
-}
+    function autoLogout() {
+        alert("Logged out due to 30 minutes of inactivity.");
+        logout();
+    }
 
-function autoLogout() {
-    alert("Logged out due to 30 minutes of inactivity.");
-    logout();
-}
+    // Detect user activity
+    window.onload = resetTimer;
+    document.onmousemove = resetTimer;
+    document.onkeydown = resetTimer;
+    document.onclick = resetTimer;
+    document.onscroll = resetTimer;
 
-// Detect activity
-window.onload = resetTimer;
-document.onmousemove = resetTimer;
-document.onkeydown = resetTimer;
-document.onclick = resetTimer;
-document.onscroll = resetTimer;
-
-// ====================================================================
-// LOGOUT
-// ====================================================================
-function logout() {
-    localStorage.clear();
-    sessionStorage.clear();
-    window.location.replace("Cam 1 login.html");
-}
+    // ===============================================================
+    // LOGOUT FUNCTION
+    // ===============================================================
+    function logout() {
+        localStorage.clear();
+        sessionStorage.clear();
+        goToLogin();
+    }
 </script>
 
 </body>
