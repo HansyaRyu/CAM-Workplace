@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome | CAM WORKPLACE</title>
+    <!-- Prevent browser caching (Undo/back) -->
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #0a1a33; /* Navy */
+            background: #0a1a33;
             margin: 0;
             height: 100vh;
             display: flex;
@@ -66,26 +68,23 @@
 <div class="container">
     <h1>CAM WORKPLACE</h1>
     <p>Welcome to the official CAM Workplace system.<br>
-    You will be redirected to login shortly.</p>
+       Please click below to go to login page.</p>
     <a href="Cam 1 login.html" class="btn">Go to Login</a>
 </div>
 
 <script>
-    // Prevent cached page restore (Undo, Back)
+    // Prevent cached page restore (Undo/back)
     window.onpageshow = function(event) {
-        window.location.replace("Cam 1 login.html");
+        if (event.persisted) {
+            window.location.replace("Cam 1 login.html");
+        }
     };
 
-    // Force back button / undo to go to login page
+    // Prevent back button from leaving this page incorrectly
     history.pushState(null, "", window.location.href);
     window.onpopstate = function () {
         window.location.replace("Cam 1 login.html");
     };
-
-    // Optional: automatically redirect after 1 second
-    setTimeout(function() {
-        window.location.replace("Cam 1 login.html");
-    }, 1000);
 </script>
 
 </body>
