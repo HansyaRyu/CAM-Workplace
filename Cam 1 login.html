@@ -1,39 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>CAM WORKPLACE - Login</title>
-<style>
-body { font-family: Arial; background:#d7eaff; }
-.box { width:290px; margin:100px auto; background:white; padding:20px; border-radius:10px; }
-input, button { width:90%; padding:10px; margin:10px 0; }
-button { background:#001f54; color:white; border:none; cursor:pointer; }
-</style>
+    <title>CAM WORKPLACE</title>
+    <style>
+        body { font-family: Arial; background:#d7eaff; }
+        .box { width:290px; margin:100px auto; background:white; padding:20px; border-radius:10px; }
+        input, button { width:90%; padding:10px; margin:10px 0; }
+        button { background:#001f54; color:white; border:none; }
+    </style>
 </head>
 <body>
 
 <div class="box">
-<h2>Login</h2>
-<input id="user" type="text" placeholder="User ID" required>
-<input id="pass" type="password" placeholder="Password" required>
-<button onclick="login()">Login</button>
+    <h2>Login</h2>
+    <input id="user" type="text" placeholder="User ID" required>
+    <input id="pass" type="password" placeholder="Password" required>
+    <button onclick="login()">Login</button>
 </div>
 
 <script>
-function isLoggedIn(){ 
-    return localStorage.getItem("isLogin") === "true";
-}
-
-// If already logged in → go to main page
-if (isLoggedIn()) {
-    window.location.href = "Cam 2 mainpage.html";
-}
-
-// Disable Back/Forward/Undo/Next → return to index
-history.pushState(null, null, location.href);
-window.onpopstate = function() {
-    window.location.href = "index.html";
-};
-
 function login() {
     const user = document.getElementById("user").value.trim();
     const pass = document.getElementById("pass").value.trim();
@@ -41,19 +26,18 @@ function login() {
     const users = {
         "admincam": "123456",
         "campartime": "123456",
-        "pttimanagement": "ptti100juta"   // Added PTTI management
+        "pttimanagement": "ptti100juta"   // <-- fixed comma + added role
     };
 
     if (users[user] && users[user] === pass) {
-
         localStorage.setItem("isLogin", "true");
         localStorage.setItem("username", user);
 
-        // Redirect based on user
+        // Redirect based on login type
         if (user === "pttimanagement") {
-            window.location.href = "Cam 3 masterlist.html";  // PTTI page
+            window.location.href = "Cam 3 masterlist.html";   // ← PTTI redirect
         } else {
-            window.location.href = "Cam 2 mainpage.html";    // Normal users
+            window.location.href = "Cam 2 mainpage.html";      // ← Normal users
         }
 
     } else {
