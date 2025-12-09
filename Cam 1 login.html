@@ -10,6 +10,7 @@ button { background:#001f54; color:white; border:none; cursor:pointer; }
 </style>
 </head>
 <body>
+
 <div class="box">
 <h2>Login</h2>
 <input id="user" type="text" placeholder="User ID" required>
@@ -18,46 +19,48 @@ button { background:#001f54; color:white; border:none; cursor:pointer; }
 </div>
 
 <script>
-function isLoggedIn(){ return localStorage.getItem("isLogin")==="true";}
+function isLoggedIn(){ 
+    return localStorage.getItem("isLogin") === "true";
+}
 
-// Already logged in → go to main page
-if(isLoggedIn()){
+// If already logged in → go to main page
+if (isLoggedIn()) {
     window.location.href = "Cam 2 mainpage.html";
 }
 
-// Disable Back/Forward/Undo/Next → go to index
-history.pushState(null,null,location.href);
-window.onpopstate = function(){
+// Disable Back/Forward/Undo/Next → return to index
+history.pushState(null, null, location.href);
+window.onpopstate = function() {
     window.location.href = "index.html";
 };
 
-function login(){
-    const user=document.getElementById("user").value.trim();
-    const pass=document.getElementById("pass").value.trim();
+function login() {
+    const user = document.getElementById("user").value.trim();
+    const pass = document.getElementById("pass").value.trim();
 
-   const users = {
-    "admincam": "123456",
-    "campartime": "123456",
-    "pttimanagement": "ptti100juta"   // Added PTTI management
-};
+    const users = {
+        "admincam": "123456",
+        "campartime": "123456",
+        "pttimanagement": "ptti100juta"   // Added PTTI management
+    };
 
-if (users[user] && users[user] === pass) {
+    if (users[user] && users[user] === pass) {
 
-    localStorage.setItem("isLogin", "true");
-    localStorage.setItem("username", user);
+        localStorage.setItem("isLogin", "true");
+        localStorage.setItem("username", user);
 
-    // Redirect based on user
-    if (user === "pttimanagement") {
-        window.location.href = "Cam 3 masterlist.html";    // Redirect for PTTI
+        // Redirect based on user
+        if (user === "pttimanagement") {
+            window.location.href = "Cam 3 masterlist.html";  // PTTI page
+        } else {
+            window.location.href = "Cam 2 mainpage.html";    // Normal users
+        }
+
     } else {
-        window.location.href = "Cam 2 mainpage.html"; // Other users
+        alert("Login error! ID or password.");
     }
-
-} else {
-    alert("Login error! ID or password.");
 }
 </script>
+
 </body>
 </html>
-
-
