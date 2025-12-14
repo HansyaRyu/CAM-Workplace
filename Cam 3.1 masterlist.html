@@ -1,65 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Number</title>
-    <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            background: #d7eaff; 
-            text-align: center; 
-            padding-top: 80px;
-        }
+<meta charset="UTF-8">
+<title>Number Page</title>
 
-        h2 {
-            font-size: 28px;
-            color: #001f54;
-            margin-bottom: 40px;
-        }
+<style>
+    body { 
+        font-family: Arial, sans-serif; 
+        background: #d7eaff; 
+        text-align: center; 
+        padding-top: 80px;
+    }
 
-        /* Base button */
-        .btn {
-            display: block;
-            width: 220px;
-            margin: 15px auto;
-            padding: 15px 25px;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 10px;
-            box-shadow: 0 6px 14px rgba(0,0,0,0.2);
-            transition: 0.25s;
-        }
+    h2 {
+        font-size: 28px;
+        color: #001f54;
+        margin-bottom: 40px;
+    }
 
-        .btn:hover {
-            transform: scale(1.05);
-        }
+    .btn {
+        display: block;
+        width: 220px;
+        margin: 15px auto;
+        padding: 15px 25px;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 10px;
+        box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+        transition: 0.25s;
+        cursor: pointer;
+    }
 
-        /* Nude buttons */
-        .btn-nude {
-            background: #f5d7b6;
-            color: #001f54;
-        }
+    .btn:hover {
+        transform: scale(1.05);
+    }
 
-        /* Back button (navy) */
-        .btn-back {
-            background: #001f54;
-            color: white;
-        }
-    </style>
+    .btn-nude {
+        background: #f5d7b6;
+        color: #001f54;
+    }
+
+    .btn-back {
+        background: #001f54;
+        color: white;
+    }
+</style>
 </head>
+
 <body>
 
 <h2>Number Page</h2>
 
-<!-- Opens in new tab -->
-<a class="btn btn-nude" href="https://docs.google.com/spreadsheets/d/1Udq_JEBpqAwYpJHjfsInJGX50V-OpRZ8rFwHqnHHNMw/edit?gid=0&pli=1#gid=0" target="_blank">2025</a>
-<a class="btn btn-nude" href="https://docs.google.com/spreadsheets/d/1Udq_JEBpqAwYpJHjfsInJGX50V-OpRZ8rFwHqnHHNMw/edit?gid=0&pli=1#gid=0" target="_blank">2024</a>
-<a class="btn btn-nude" href="https://docs.google.com/spreadsheets/d/1Udq_JEBpqAwYpJHjfsInJGX50V-OpRZ8rFwHqnHHNMw/edit?gid=0&pli=1#gid=0" target="_blank">2023</a>
-<a class="btn btn-nude" href="https://docs.google.com/spreadsheets/d/1Udq_JEBpqAwYpJHjfsInJGX50V-OpRZ8rFwHqnHHNMw/edit?gid=0&pli=1#gid=0" target="_blank">2022</a>
+<!-- Year buttons -->
+<a class="btn btn-nude" onclick="openDrivePopup('https://docs.google.com/spreadsheets/d/1Udq_JEBpqAwYpJHjfsInJGX50V-OpRZ8rFwHqnHHNMw/edit#gid=0')">2025</a>
+<a class="btn btn-nude" onclick="openDrivePopup('https://docs.google.com/spreadsheets/d/1Udq_JEBpqAwYpJHjfsInJGX50V-OpRZ8rFwHqnHHNMw/edit#gid=0')">2024</a>
+<a class="btn btn-nude" onclick="openDrivePopup('https://docs.google.com/spreadsheets/d/1Udq_JEBpqAwYpJHjfsInJGX50V-OpRZ8rFwHqnHHNMw/edit#gid=0')">2023</a>
+<a class="btn btn-nude" onclick="openDrivePopup('https://docs.google.com/spreadsheets/d/1Udq_JEBpqAwYpJHjfsInJGX50V-OpRZ8rFwHqnHHNMw/edit#gid=0')">2022</a>
 
-<!-- Local back button -->
-<a class="btn btn-back" href="Cam 2 mainpage.html">⬅ Back to Main</a>
+<!-- Back button -->
+<a class="btn btn-back" href="Cam 2 mainpage.html" onclick="closeDrivePopup()">⬅ Back to Main</a>
+
+<script>
+let drivePopup = null;
+
+function openDrivePopup(url) {
+
+    // Tutup popup lama jika ada
+    if (drivePopup && !drivePopup.closed) {
+        drivePopup.close();
+    }
+
+    const screenWidth  = window.screen.width;
+    const screenHeight = window.screen.height;
+
+    const popupWidth  = Math.floor(screenWidth * 0.85);
+    const popupHeight = Math.floor(screenHeight * 0.85);
+
+    const left = Math.floor((screenWidth - popupWidth) / 2);
+    const top  = Math.floor((screenHeight - popupHeight) / 2);
+
+    drivePopup = window.open(
+        url,
+        'CAM_GoogleDrive',
+        `
+        width=${popupWidth},
+        height=${popupHeight},
+        top=${top},
+        left=${left},
+        toolbar=no,
+        menubar=no,
+        location=no,
+        status=no,
+        scrollbars=yes,
+        resizable=yes
+        `
+    );
+}
+
+function closeDrivePopup() {
+    if (drivePopup && !drivePopup.closed) {
+        drivePopup.close();
+    }
+}
+</script>
 
 </body>
-
 </html>
